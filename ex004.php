@@ -3,7 +3,7 @@
 
     switch($op){
         case 1:
-            cadastrar();
+            //cadastrar();
             echo "Cadastro";
             break;
         case 2:
