@@ -1,5 +1,37 @@
 <?php
-    if($_SERVER["REQUEST_METHOD" === 'GET']) {
+
+    if($_SERVER["REQUEST_METHOD"] === 'POST') {
+        
+        function calcMedia($n1, $n2){
+            $media = ($n1+$n2)/2;
+            return $media;
+        }
+        
+        //ex013.php?nota1=8.0&nota2=7.0
+        $n1 = $_POST["nota1"];//se colocar REQUEST tanto faz, pode get ou post no html
+        $n2 = $_POST["nota2"];
+
+        if(trim($n1) == ""){
+            $msgN1 = "A nota 1 é obrigatória";
+        } else if (trim($n2) == "") {
+            $msgN2 = "A nota 2 é obrigatória";
+        } else {
+            $msgN1 = "";
+            $msgN2 = "";
+
+            $media = calcMedia($n1,$n2);
+            $msgMedia = "Média = " . $media . "<br>";
+            
+            if($media >= 6.0) {
+                $msgResultado = "<span id='aprovado'>APROVADO!</span>";
+            } else {
+                $msgResultado = "<span id='reprovado'>REPROVADO!</span>";
+            }
+        }
+            
+    } else {
+        $msgMedia = "";
+        $msgResultado = "";
         $msgN1 = "";
         $msgN2 = "";
     }
@@ -42,42 +74,26 @@
         <br><br>
 
         Nota 2: <br>
-        <input type="text" name="nota2" id="">
+        <input type="text" name="nota2" id=""><br>
         <span id="warning"><small><?= $msgN2; ?></small></span>
 
         <br><br>
 
         <input type="submit" value="Calcular">
     </form>
+
+    <hr>
+
+    <?= $msgMedia; ?>
+
+    <br>
+
+    <?= $msgResultado; ?>
+
 </body>
 </html>
 
 <?php
 
-    if($_SERVER["REQUEST_METHOD"] === 'POST') {
-        function calcMedia($n1, $n2){
-            $media = ($n1+$n2)/2;
-            return $media;
-        }
-        
-        //ex013.php?nota1=8.0&nota2=7.0
-        $n1 = $_POST["nota1"];//se colocar REQUEST tanto faz, pode get ou post no html
-        $n2 = $_POST["nota2"];
-
-        if(trim($n1) == ""){
-            $msgN1 = "A nota 1 é obrigatória";
-        } else if (trim($n2) == "") {
-            $msgN2 = "A nota 2 é obrigatória";
-        } else
-            $media = calcMedia($n1,$n2);
-
-        
-        echo "Média = " . $media . "<br>";
-        
-        if($media >= 6.0) {
-            echo "<span id='aprovado'>APROVADO!</span>";
-        } else {
-            echo "<span id='reprovado'>REPROVADO!</span>";
-        }
-    }
+    
 ?>
