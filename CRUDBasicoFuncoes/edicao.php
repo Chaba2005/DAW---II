@@ -19,53 +19,50 @@
 
 include("bd.php");
 
-if (!isset($_POST["raAluno"])) {
-    echo "Selecione o aluno a ser editado!";
+if (!isset($_POST["cpf"])) {
+    echo "Selecione o funcionário a ser editado!";
 } else {
-    $ra = $_POST["raAluno"];
+    $cpf = $_POST["cpf"];
 
     try {
 
-        $stmt = buscarEdicao($ra);
+        $stmt = buscarEdicao($cpf);
 
-        $edificacoes = "";
-        $enfermagem = "";
-        $geodesia = "";
-        $informatica = "";
-        $mecanica = "";
-        $qualidade = "";
+        $nutricao = "";
+        $administracao = "";
+        $limpeza = "";
+        $tia = "";
 
         while ($row = $stmt->fetch()) {
 
             //para setar o curso correto no combo
-            if ($row['curso'] == "Edificações") {
-                $edificacoes = "selected";
-            } else if ($row['curso'] == "Enfermagem") {
-                $enfermagem = "selected";
-            } else if ($row['curso'] == "GeoCart") {
-                $geodesia = "selected";
-            } else if ($row['curso'] == "Informática") {
-                $informatica = "selected";
-            } else if ($row['curso'] == "Mecânica") {
-                $mecanica = "selected";
-            } else if ($row['curso'] == "Qualidade") {
-                $qualidade = "selected";
+            if ($row['departamento'] == "Nutrição") {
+                $nutricao = "selected";
+            } else if ($row['departamento'] == "Administração") {
+                $administracao = "selected";
+            } else if ($row['departamento'] == "Limpeza") {
+                $limpeza = "selected";
+            } else if ($row['departamento'] == "Tia do Bandeco") {
+                $tia = "selected";
             }
 
             echo "<form method='post' action='altera.php'>\n
-            RA:<br>\n
-            <input type='text' size='10' name='ra' value='$row[ra]' readonly><br><br>\n
+            CPF:<br>\n
+            <input type='text' size='10' name='cpf' value='$row[cpf]' readonly><br><br>\n
             Nome:<br>\n
             <input type='text' size='30' name='nome' value='$row[nome]'><br><br>\n
-            Curso:<br>\n
-            <select name='curso'>\n
+            Idade:<br>\n
+            <input type='text' size='30' name='idade' value='$row[idade]'><br><br>\n
+            Nome:<br>\n
+            <input type='file' name='foto' accept='image/gif, image/png, image/jpeg' ><br>
+
+            Departamento:<br>\n
+            <select name='departamento'>\n
                 <option></option>\n
-                 <option value='Edificações' $edificacoes>Edificações</option>\n
-                <option value='Enfermagem' $enfermagem>Enfermagem</option>\n
-                <option value='GeoCart' $geodesia>Geodésia e Cartografia</option>\n
-                <option value='Informática' $informatica>Informática</option>\n
-                <option value='Mecânica' $mecanica>Mecânica</option>\n
-                 <option value='Qualidade' $qualidade>Qualidade</option>\n
+                 <option value='Edificações' $nutricao>Nutrição</option>\n
+                <option value='Enfermagem' $administracao>Administracão</option>\n
+                <option value='GeoCart' $limpeza>Limpeza</option>\n
+                <option value='Informática' $tia>Tia do Bandeco</option>\n
              </select><br><br>\n        
              <input type='submit' value='Salvar Alterações'>\n        
              <hr>\n

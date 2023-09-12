@@ -10,7 +10,7 @@
 <a href="index.html">Home</a> | <a href="consulta.php">Consulta</a>
 <hr>
 
-<h2>Exclusão de Alunos</h2>
+<h2>Exclusão de Funcionários</h2>
 
 </body>
 </html>
@@ -19,11 +19,11 @@
 
 include("bd.php");
 
-if (!isset($_POST["raAluno"])) {
-    echo "Selecione o aluno a ser excluído!";
+if (!isset($_POST["cpf"])) {
+    echo "Selecione o funcionário a ser excluído!";
 } else {
-    $ra = $_POST["raAluno"];
-    excluir($ra);
+    $cpf = $_POST["cpf"];
+    excluir($cpf);
 }
 
 ?>

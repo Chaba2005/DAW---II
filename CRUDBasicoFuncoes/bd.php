@@ -74,40 +74,44 @@ function consultar()
     return $stmt;
 }
 
-function buscarEdicao($ra)
+function buscarEdicao($cpf)
 {
     $pdo = conectarBD();
-    $stmt = $pdo->prepare('select * from cpf where cpf = :cpf');
-    $stmt->bindParam(':cpf', $ra);
+    $stmt = $pdo->prepare('select * from bandeco where cpf = :cpf');
+    $stmt->bindParam(':cpf', $cpf);
     $stmt->execute();
     return $stmt;
 }
 
-function alterar($ra, $novoNome, $novoCurso)
+function alterar($cpf, $novoNome, $novoDp, $idade,$foto)
 {
     try {
+        $fotoBinario = file_get_contents($foto['tmp_name']);
         $pdo = conectarBD();
-        $stmt = $pdo->prepare('UPDATE alunos SET nome = :novoNome, curso = :novoCurso WHERE ra = :ra');
+        $stmt = $pdo->prepare('UPDATE bandeco SET nome = :novoNome, departamento = :novoDp, idade = :idade, foto = :foto  WHERE cpf = :cpf');
         $stmt->bindParam(':novoNome', $novoNome);
-        $stmt->bindParam(':novoCurso', $novoCurso);
-        $stmt->bindParam(':ra', $ra);
+        $stmt->bindParam(':novoDp', $novoDp);
+        $stmt->bindParam(':cpf', $cpf);
+        $stmt->bindParam(':idade', $idade);
+        $stmt->bindParam(':foto', $fotoBinario);
+        
         $stmt->execute();
 
-        echo "Os dados do aluno de RA $ra foram alterados!";
+        echo "Os dados do aluno de RA $cpf foram alterados!";
     } catch (PDOException $e) {
         echo 'Error: ' . $e->getMessage();
     }
 }
 
-function excluir($ra)
+function excluir($cpf)
 {
     try {
         $pdo = conectarBD();
-        $stmt = $pdo->prepare('DELETE FROM alunos WHERE ra = :ra');
-        $stmt->bindParam(':ra', $ra);
+        $stmt = $pdo->prepare('DELETE FROM bandeco WHERE cpf = :cpf');
+        $stmt->bindParam(':cpf', $cpf);
         $stmt->execute();
 
-        echo $stmt->rowCount() . " aluno de RA $ra removido!";
+        echo $stmt->rowCount() . "Funcionário removido!";
     } catch (PDOException $e) {
         echo 'Error: ' . $e->getMessage();
     }

@@ -19,10 +19,12 @@
 
     include("bd.php");
 
-    $ra = $_POST['ra'];
+    $cpf = $_POST['cpf'];
     $novoNome = $_POST['nome'];
-    $novoCurso = $_POST['curso'];
+    $novoDp = $_POST['departamento'];
+    $idade = $_POST['idade'];
+    $foto = $_POST['foto'];
 
-    alterar($ra, $novoNome, $novoCurso);
+    alterar($cpf, $novoNome, $novoDp, $idade, $foto);
 
 ?>

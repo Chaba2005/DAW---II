@@ -17,12 +17,12 @@
     <a href="index.html">Home</a>
     <hr>
 
-    <h2>Consulta de Alunos</h2>
+    <h2>Consulta de Funcionários</h2>
     <div>
         <form method="post">
 
-            RA:<br>
-            <input type="text" size="10" name="ra">
+            CPF:<br>
+            <input type="text" size="10" name="cpf">
             <input type="submit" value="Consultar">
             <hr>
         </form>
@@ -63,8 +63,8 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
 
         echo "</table><br>
              
-             <button type='submit' formaction='remove.php'>Excluir Aluno</button>
-             <button type='submit' formaction='edicao.php'>Editar Aluno</button>
+             <button type='submit' formaction='remove.php'>Excluir Funcionário</button>
+             <button type='submit' formaction='edicao.php'>Editar Funcionário</button>
              
              </form>";
     } catch (PDOException $e) {
