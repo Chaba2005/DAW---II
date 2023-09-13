@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
 
         $stmt = consultar();
 
-        echo "<form method='post'><table border='1px'>";
+        echo "<form method='post' enctype='multipart/form-data'><table border='1px'>";
         echo "<tr><th></th><th>CPF</th><th>Nome</th><th>Idade</th><th>Departamento</th><th>Foto</th></tr>";
 
         while ($row = $stmt->fetch()) {

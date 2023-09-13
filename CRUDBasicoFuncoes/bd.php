@@ -83,21 +83,31 @@ function buscarEdicao($cpf)
     return $stmt;
 }
 
-function alterar($cpf, $novoNome, $novoDp, $idade,$foto)
+function alterar($cpf, $novoNome, $novoDp, $idade, $foto)
 {
-    try {
+    $foto = $_FILES['foto'];
+    $nomeFoto = $foto['name'];
+    $tipoFoto = $foto['type'];
+    $tamanhoFoto = $foto['size'];
+    $pdo = conectarBD();
+    if ($nomeFoto != "") {
         $fotoBinario = file_get_contents($foto['tmp_name']);
-        $pdo = conectarBD();
         $stmt = $pdo->prepare('UPDATE bandeco SET nome = :novoNome, departamento = :novoDp, idade = :idade, foto = :foto  WHERE cpf = :cpf');
         $stmt->bindParam(':novoNome', $novoNome);
         $stmt->bindParam(':novoDp', $novoDp);
         $stmt->bindParam(':cpf', $cpf);
         $stmt->bindParam(':idade', $idade);
         $stmt->bindParam(':foto', $fotoBinario);
-        
+    } else {
+        $stmt = $pdo->prepare('UPDATE bandeco SET nome = :novoNome, departamento = :novoDp, idade = :idade WHERE cpf = :cpf');
+        $stmt->bindParam(':novoNome', $novoNome);
+        $stmt->bindParam(':novoDp', $novoDp);
+        $stmt->bindParam(':cpf', $cpf);
+        $stmt->bindParam(':idade', $idade);
+    }
+    try {
         $stmt->execute();
-
-        echo "Os dados do aluno de RA $cpf foram alterados!";
+        echo "Os dados do funcionário foram alterados!";
     } catch (PDOException $e) {
         echo 'Error: ' . $e->getMessage();
     }

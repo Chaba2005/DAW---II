@@ -34,7 +34,7 @@ if (!isset($_POST["cpf"])) {
         $tia = "";
 
         while ($row = $stmt->fetch()) {
-
+            $foto = $row['foto'];
             //para setar o curso correto no combo
             if ($row['departamento'] == "Nutrição") {
                 $nutricao = "selected";
@@ -46,23 +46,31 @@ if (!isset($_POST["cpf"])) {
                 $tia = "selected";
             }
 
-            echo "<form method='post' action='altera.php'>\n
+            echo "<form method='post' action='altera.php' enctype='multipart/form-data'>\n
             CPF:<br>\n
             <input type='text' size='10' name='cpf' value='$row[cpf]' readonly><br><br>\n
             Nome:<br>\n
             <input type='text' size='30' name='nome' value='$row[nome]'><br><br>\n
             Idade:<br>\n
             <input type='text' size='30' name='idade' value='$row[idade]'><br><br>\n
-            Nome:<br>\n
-            <input type='file' name='foto' accept='image/gif, image/png, image/jpeg' ><br>
+            Foto:<br>";
+
+            if ($foto=="") {
+              echo "-<br><br>";
+            } else {
+              echo  "<img src='data:image;base64,". base64_encode($foto)."' width='50px' height='50px'><br><br>";
+            }
+
+            echo "
+             <input type='file' name='foto'><br><br>
 
             Departamento:<br>\n
             <select name='departamento'>\n
                 <option></option>\n
-                 <option value='Edificações' $nutricao>Nutrição</option>\n
-                <option value='Enfermagem' $administracao>Administracão</option>\n
-                <option value='GeoCart' $limpeza>Limpeza</option>\n
-                <option value='Informática' $tia>Tia do Bandeco</option>\n
+                 <option value='Nutrição' $nutricao>Nutrição</option>\n
+                <option value='Administração' $administracao>Administracão</option>\n
+                <option value='Limpeza' $limpeza>Limpeza</option>\n
+                <option value='Tia do Bandeco' $tia>Tia do Bandeco</option>\n
              </select><br><br>\n        
              <input type='submit' value='Salvar Alterações'>\n        
              <hr>\n

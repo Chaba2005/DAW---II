@@ -23,7 +23,7 @@
     $novoNome = $_POST['nome'];
     $novoDp = $_POST['departamento'];
     $idade = $_POST['idade'];
-    $foto = $_POST['foto'];
+    $foto = $_FILES['foto'];
 
     alterar($cpf, $novoNome, $novoDp, $idade, $foto);
 
