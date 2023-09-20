@@ -36,10 +36,9 @@ function cadastrar($nome, $cpf, $departamento, $idade, $foto)
             $stmt->bindParam(':idade', $idade);
             $stmt->bindParam(':foto', $fotoBinario);
             $stmt->execute();
-
-            echo "<span id='sucess'>Funcionário Cadastrado!</span>";
+            echo "<div id='success'>Funcionário cadastrado com sucesso!</div>";
         } else {
-            echo "<span id='error'>Funcionário já existente!</span>";
+            echo "<div id='error'>Funcionário com o mesmo CPF já está cadastrado.</div>";
         }
     } catch (PDOException $e) {
         echo 'Error: ' . $e->getMessage();
@@ -58,15 +57,65 @@ function verificarCadastro($cpf, $pdo)
     return $rows;
 }
 
+function buscar()
+{
+    if ($_SERVER["REQUEST_METHOD"] === 'POST') {
+
+        try {
+            $stmt = consultar();
+
+            echo "<form method='post' enctype='multipart/form-data'><table id='tabela' border='1px'>";
+
+            echo "<tr><th></th><th>CPF</th><th>Nome</th><th>Idade</th><th>Departamento</th><th>Foto</th></tr>";
+
+            while ($row = $stmt->fetch()) {
+                echo "<tr>";
+                echo "<td><input type='radio' name='cpf' value='" . $row['cpf'] . "'>";
+                echo "<td>" . $row['cpf'] . "</td>";
+                echo "<td>" . $row['nome'] . "</td>";
+                echo "<td>" . $row['idade'] . "</td>";
+                echo "<td>" . $row['departamento'] . "</td>";
+                if ($row["foto"] == null) {
+                    echo "<td align='center'>-</td>";
+                } else {
+                    echo "<td align='center'><img src='data:image;base64," . base64_encode($row["foto"]) . "' width='50px' height='50px'></td>";
+                    //base64 - Maneira de codificar dados binários em texto ASCII, informando ao navegador que os dados estão embutidos em uma imagem.
+                }
+                echo "</tr>";
+                echo "</tr>";
+            }
+
+            echo "</table><br>
+                 <div class='alinhar'>
+                    <button type='submit' formaction='remove.php'>Excluir</button>
+                    <button type='submit' formaction='edicao.php'>Editar</button>
+                </div>
+                 </form>";
+        } catch (PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
+    }
+}
+
 function consultar()
 {
     $pdo = conectarBD();
     if (isset($_POST["cpf"]) && ($_POST["cpf"] != "")) {
         $cpf = $_POST["cpf"];
-        $stmt = $pdo->prepare("select * from bandeco where cpf= :cpf order by departamento, nome");
-        $stmt->bindParam(':cpf', $cpf);
+        if (isset($_POST['op'])) {
+            if ($_POST['op'] == 'alf') $stmt = $pdo->prepare("select * from bandeco where cpf= :cpf order by idade");
+            else $stmt = $pdo->prepare("select * from bandeco where cpf= :cpf order by nome");
+        } else {
+            $stmt = $pdo->prepare("select * from bandeco where cpf= :cpf order by departamento");
+            $stmt->bindParam(':cpf', $cpf);
+        }
     } else {
-        $stmt = $pdo->prepare("select * from bandeco order by departamento, nome");
+        if (isset($_POST['op'])) {
+            if ($_POST['op'] == 'alf') $stmt = $pdo->prepare("select * from bandeco order by idade");
+            else $stmt = $pdo->prepare("select * from bandeco order by nome");
+        } else {
+            $stmt = $pdo->prepare("select * from bandeco order by departamento");
+        }
     }
 
     $stmt->execute();
@@ -107,7 +156,9 @@ function alterar($cpf, $novoNome, $novoDp, $idade, $foto)
     }
     try {
         $stmt->execute();
-        echo "Os dados do funcionário foram alterados!";
+        echo "<div class=container>
+        <p>Os dados do funcionário foram alterados!</p>
+        </div>";
     } catch (PDOException $e) {
         echo 'Error: ' . $e->getMessage();
     }
@@ -121,7 +172,7 @@ function excluir($cpf)
         $stmt->bindParam(':cpf', $cpf);
         $stmt->execute();
 
-        echo $stmt->rowCount() . "Funcionário removido!";
+        $stmt->rowCount() . "Funcionário removido!";
     } catch (PDOException $e) {
         echo 'Error: ' . $e->getMessage();
     }

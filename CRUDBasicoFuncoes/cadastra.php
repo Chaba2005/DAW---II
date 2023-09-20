@@ -3,8 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>CRUD - Controle de funcionários</title>
-
+    <title>CRUD - Controle de Funcionários</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,33 +12,30 @@
             padding: 0;
         }
 
-        #success {
-            color: green;
-            font-weight: bold;
-        }
-
-        #error {
-            color: red;
-            font-weight: bold;
-        }
-
-        #warning {
-            color: orange;
-            font-weight: bold;
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
         }
 
         a {
             text-decoration: none;
-            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
 
         h2 {
-            margin-top: 10px;
+            margin-top: 20px;
+            text-align: center;
         }
 
-        form {
-            max-width: 400px;
-            margin: 0 auto;
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
             background-color: #fff;
             padding: 20px;
             border-radius: 5px;
@@ -54,7 +50,7 @@
 
         input[type="text"],
         select {
-            width: 95%;
+            width: 100%;
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
@@ -82,24 +78,74 @@
         hr {
             margin-top: 20px;
         }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ccc;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        #success {
+            margin: 20px auto;
+            max-width: 600px;
+            color: green;
+            font-weight: bold;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* Estilo para mensagens de erro */
+        #error {
+            margin: 20px auto;
+            max-width: 600px;
+            color: red;
+            font-weight: bold;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 
 <body>
-    <a href="index.html">Home</a>
-    <hr>
+    <header>
+        <h1>CRUD - Controle de Funcionários</h1>
+        <a href="index.html">Home</a>
+    </header>
 
-    <h2>Cadastro de funcionários bandeco</h2>
-    <div>
+    <div class="container">
+        <h2>Cadastro de Funcionários</h2>
         <form method="post" enctype="multipart/form-data">
             <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required><br>
+            <input type="text" id="nome" name="nome" required>
 
             <label for="idade">Idade:</label>
-            <input type="text" id="idade" name="idade"><br>
+            <input type="text" id="idade" name="idade">
 
             <label for="cpf">CPF:</label>
-            <input type="text" id="cpf" name="cpf"><br>
+            <input type="text" id="cpf" name="cpf">
 
             <label for="departamento">Departamento:</label>
             <select id="departamento" name="departamento">
@@ -108,14 +154,15 @@
                 <option value="Administração">Administração</option>
                 <option value="Limpeza">Limpeza</option>
                 <option value="Tia do Bandeco">Tia do Bandeco</option>
-            </select><br>
+            </select>
 
             <label for="foto">Foto:</label>
-            <input type="file" name="foto" accept="image/gif, image/png, image/jpeg"><br>
+            <input type="file" name="foto" accept="image/gif, image/png, image/jpeg">
 
             <input type="submit" value="Cadastrar">
         </form>
     </div>
+
 </body>
 
 </html>
